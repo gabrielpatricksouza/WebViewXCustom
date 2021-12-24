@@ -348,8 +348,8 @@ class _WebViewXState extends State<WebViewX> {
       ..id = 'id_$iframeViewType'
       ..name = 'name_$iframeViewType'
       ..style.border = 'none'
-      ..width = widget.width.toInt().toString()
-      ..height = widget.height.toInt().toString()
+      ..width = "100%"
+      ..height = "100%"
       ..style.width = "100%"
       ..style.height = "100%"
       ..allowFullscreen = widget.webSpecificParams.webAllowFullscreenContent;
