@@ -344,14 +344,7 @@ class _WebViewXState extends State<WebViewX> {
   }
 
   html.IFrameElement _createIFrame() {
-    final iframeElement = html.IFrameElement()
-      ..id = 'id_$iframeViewType'
-      ..name = 'name_$iframeViewType'
-      ..style.border = 'none'
-      ..width = "100%"
-      ..height = "100%"
-      ..style.width = "100%"
-      ..style.height = "100%";
+    final iframeElement = html.IFrameElement();
 
     widget.webSpecificParams.additionalSandboxOptions.forEach(
       iframeElement.sandbox!.add,
