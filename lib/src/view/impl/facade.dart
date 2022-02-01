@@ -3,6 +3,7 @@ import 'package:webviewx/src/utils/utils.dart';
 import 'package:webviewx/src/controller/interface.dart' as ctrl_interface;
 import 'package:webviewx/src/view/interface.dart' as view_interface;
 
+/// Gabriel Patrick Souza
 /// Facade class
 class WebViewX extends StatelessWidget implements view_interface.WebViewX {
   /// Initial content
