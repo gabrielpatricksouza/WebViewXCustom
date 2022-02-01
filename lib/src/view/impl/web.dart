@@ -47,7 +47,7 @@ class WebViewX extends StatefulWidget implements view_interface.WebViewX {
   /// being created.
   @override
   final Function(ctrl_interface.WebViewXController controller)?
-      onWebViewCreated;
+  onWebViewCreated;
 
   /// A set of [EmbeddedJsContent].
   ///
@@ -223,7 +223,6 @@ class _WebViewXState extends State<WebViewX> {
       // Registering the same events as we already do inside
       // HtmlUtils.embedClickListenersInPageSource(), but in Dart.
       // So far it seems to be working, but needs more testing.
-
       jsWindowObject.callMethod('addEventListener', [
         "click",
         js.allowInterop((event) {
@@ -231,14 +230,11 @@ class _WebViewXState extends State<WebViewX> {
           print(href);
         })
       ]);
-
       jsWindowObject.callMethod('addEventListener', [
         "submit",
         js.allowInterop((event) {
           final form = jsWindowObject["document"]["activeElement"]["form"];
-
           final method = form["method"].toString();
-
           if (method == 'get') {
             final action = jsWindowObject.callMethod(
               'eval',
@@ -250,7 +246,6 @@ class _WebViewXState extends State<WebViewX> {
           } else {
             // post
             final action = form["action"].toString();
-
             final formData = jsWindowObject
                 .callMethod(
                   'eval',
@@ -258,7 +253,6 @@ class _WebViewXState extends State<WebViewX> {
                 )
                 .toString()
                 .split(',');
-
             final mappedFields = <String, dynamic>{};
             for (var i = 0; i < formData.length; i++) {
               if (i % 2 != 0) {
@@ -344,7 +338,15 @@ class _WebViewXState extends State<WebViewX> {
   }
 
   html.IFrameElement _createIFrame() {
-    final iframeElement = html.IFrameElement();
+    final iframeElement = html.IFrameElement()
+      ..id = 'id_$iframeViewType'
+      ..name = 'name_$iframeViewType'
+      ..style.border = 'none'
+      ..width = widget.width.toInt().toString()
+      ..height = widget.height.toInt().toString()
+      ..style.width = "100%"
+      ..style.height = "100%"
+      ..allowFullscreen = widget.webSpecificParams.webAllowFullscreenContent;
 
     widget.webSpecificParams.additionalSandboxOptions.forEach(
       iframeElement.sandbox!.add,
@@ -383,9 +385,9 @@ class _WebViewXState extends State<WebViewX> {
   }
 
   Future<bool> _checkNavigationAllowed(
-    String pageSource,
-    SourceType sourceType,
-  ) async {
+      String pageSource,
+      SourceType sourceType,
+      ) async {
     if (widget.navigationDelegate == null) {
       return true;
     }
@@ -474,13 +476,13 @@ class _WebViewXState extends State<WebViewX> {
     final bodyMap = body == null
         ? null
         : (<String, String>{}..addEntries(
-            (body as List<dynamic>).map(
-              (e) => MapEntry<String, String>(
-                e[0].toString(),
-                e[1].toString(),
-              ),
-            ),
-          ));
+      (body as List<dynamic>).map(
+            (e) => MapEntry<String, String>(
+          e[0].toString(),
+          e[1].toString(),
+        ),
+      ),
+    ));
 
     _tryFetchRemoteSource(
       method: method,
@@ -535,7 +537,7 @@ class _WebViewXState extends State<WebViewX> {
     if (widget.userAgent != null) {
       (headers ??= <String, String>{}).putIfAbsent(
         userAgentHeadersKey,
-        () => widget.userAgent!,
+            () => widget.userAgent!,
       );
     }
 
